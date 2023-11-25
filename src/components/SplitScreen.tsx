@@ -1,8 +1,15 @@
 import styled from 'styled-components';
 
-interface Params {
-  Left: React.FC;
-  Right: React.FC;
+interface Props {
+  // Left: React.FC;
+  // Right: React.FC;
+  leftWidth: number;
+  rightWidth: number;
+  children: React.ReactNode[];
+}
+
+interface PanelProps {
+  flex: number;
 }
 
 const Container = styled.div`
@@ -10,20 +17,21 @@ const Container = styled.div`
   width: 100vw;
 `;
 
-const Panel = styled.div`
-  flex: 1;
+const Panel = styled.div<PanelProps>`
+  flex: ${(props) => props.flex};
 `;
 
-const SplitScreen: React.FC<Params> = ({ Left, Right }) => {
+const SplitScreen: React.FC<Props> = ({
+  children,
+  leftWidth = 1,
+  rightWidth = 1,
+}) => {
+  const [left, right] = children;
+
   return (
     <Container>
-      <Panel>
-        <Left />
-      </Panel>
-
-      <Panel>
-        <Right />
-      </Panel>
+      <Panel flex={leftWidth}>{left}</Panel>
+      <Panel flex={rightWidth}>{right}</Panel>
     </Container>
   );
 };
